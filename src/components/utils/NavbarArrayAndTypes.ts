@@ -15,27 +15,27 @@ export interface NavbarItemType {
       dropDownData: [
         {
           label: "Dresses",
-          href: "/female",
+          href: "/female/dresse",
           isDropDown: false,
         },
         {
-          label: "Shirts",
-          href: "/female",
+          label: "TShirts",
+          href: "/female/t-shirt",
           isDropDown: false,
         },
         {
           label: "Pents",
-          href: "/female",
+          href: "/female/pent",
           isDropDown: false,
         },
         {
           label: "Jackets",
-          href: "/female",
+          href: "/female/jacket",
           isDropDown: false,
         },
         {
           label: "Sweater",
-          href: "/female",
+          href: "/female/sweater",
           isDropDown: false,
         },
       ],
@@ -47,13 +47,13 @@ export interface NavbarItemType {
       dropDownData: [
         {
           label: "Sweaters",
-          href: "/male",
+          href: "/male/sweater",
           isDropDown: false,
         },
   
         {
           label: "Jackets",
-          href: "/male",
+          href: "/male/jacket",
           isDropDown: false,
         },
       ],

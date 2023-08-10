@@ -13,6 +13,7 @@ import Expand from "./subComponents/Expand";
 
 const Navbar = () => {
     const [isNavbarOpen,setNavbarOpen]=useState<boolean>(false)
+    const [cartItemNumber,setcartItemNumber] = useState<number>(0)
   return (
      <div className=' sticky top-0 bg-opacityDownColor z-20 backdrop-blur-lg'>
     <div className='py-8 flex justify-between items-center space-x-12'>
