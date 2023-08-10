@@ -5,11 +5,12 @@ import ProductsType from '@/components/views/ProductTypes'
 import Image from 'next/image'
 
 async function fetchAllProductsData(){
-  let res = await fetch(`${BASE_PATH_FORAPI}/api/products`)
-  if(!res.ok){
-    throw new Error("Failed to fetch")
-  }
-  return res.json()
+  // let res = await fetch(`${BASE_PATH_FORAPI}/api/products`)
+  // if(!res.ok){
+  //   throw new Error("Failed to fetch")
+  // }
+  // return res.json()
+  return {response:"HI"}
 }
 
 
