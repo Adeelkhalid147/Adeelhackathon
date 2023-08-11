@@ -19,7 +19,9 @@ const Navbar = () => {
     <div className='py-8 flex justify-between items-center space-x-12'>
         {/* image div */}
       <div className="w-36 flex-shrink-0">
+        <Link href={"/"}>
         <Image src={"/Logo.webp"} alt="logo" height={500} width={500} />
+        </Link>
       </div>
 
       <div className='hidden lg:flex justify-between items-center w-full'>

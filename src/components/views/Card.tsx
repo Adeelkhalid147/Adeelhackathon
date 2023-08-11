@@ -15,10 +15,10 @@ function urlFor(source: any) {
 const Card: FC<{ singleProductData: oneProductType }> = ({singleProductData}) => {
   // urlFor(singleProductData.image[0]).width(500).url()
   return (
-        <Link href={`/catalog/${singleProductData.slug.current}`}>
+    <Link href={`/catalog/${singleProductData.slug.current}`}>
     <div className="max-w-sm min-w-[24rem] space-y-3 select-none  hover:scale-110 duration-300">
       <div className="w-full relative">
-      <div className="absolute inset-0" />
+      <div className="absolute inset-0 z-10" />
         {/* inset-0 charo side se bilkul sth mila de ga  */}
         <Image src={(urlFor(singleProductData.image[0]).width(1000).height(1000).url())} alt={singleProductData.image[0].alt} height={1000} width={1000}/>
       </div>
@@ -27,7 +27,7 @@ const Card: FC<{ singleProductData: oneProductType }> = ({singleProductData}) =>
           <p>${singleProductData.price}</p>
       </div>
     </div>
-        </Link>
+     </Link>
   )
 }
 
