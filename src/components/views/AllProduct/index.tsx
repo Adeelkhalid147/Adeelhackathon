@@ -8,7 +8,7 @@ interface PropsType {
 
 export default class AllProductsCompo extends Component<{ ProdutcData:PropsType }> {
     getData = ()=>{
-        console.log(this.props.ProdutcData.productArray[0].price)
+        // console.log(this.props.ProdutcData.productArray[0].price)
     }
     render() {
         return (
