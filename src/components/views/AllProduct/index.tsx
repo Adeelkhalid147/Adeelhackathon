@@ -12,6 +12,6 @@ export default class AllProductsCompo extends Component<{ ProdutcData:PropsType 
     }
     render() {
         return (
-            <div onClick={this.getData}>{this.props.ProdutcData.productArray[0].price}</div>
+            <div onClick={this.getData}>HI</div>
         )
     }}
