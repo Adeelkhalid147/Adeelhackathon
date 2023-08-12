@@ -48,7 +48,7 @@ export default class AllProductsCompo extends Component<{
   };
   render() {
     return (
-      <div onClick={this.getData}>
+      
         <InfiniteScroll
           dataLength={this.state.items.length} //This is important field to render the next data
           next={this.getData}
@@ -66,7 +66,7 @@ export default class AllProductsCompo extends Component<{
             <Card key={index} singleProductData={item}/>
           ))}
         </InfiniteScroll>
-        </div>
+        
      
     );
   }
