@@ -1,6 +1,7 @@
 
 import { responseType } from '@/components/utils/ProductsDataArrayAndType'
 import ProductDetail from '@/components/views/ProductDetail'
+import ContextWrapper from '@/global/Context'
 import React from 'react'
 
 async function fetchPreviewData(slug:string){
@@ -13,9 +14,9 @@ const Catalog = async ({ params }:{params:{slug:string} }) => {
   let data:responseType = await fetchPreviewData(params.slug)
   // console.log("adeel :",data.result)
   return (
-    <div>
+    <ContextWrapper>
       <ProductDetail item={data.result[0]}/>
-    </div>
+    </ContextWrapper>
   )
 }
 

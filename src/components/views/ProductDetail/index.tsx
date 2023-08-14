@@ -3,12 +3,13 @@ import {
   imagesType,
   oneProductType,
 } from "@/components/utils/ProductsDataArrayAndType";
-import { FC, useState } from "react";
+import { FC, useContext, useState } from "react";
 import { client } from "../../../../sanity/lib/client";
 import Image from "next/image";
 import imageUrlBuilder from "@sanity/image-url";
 import { CgShoppingCart } from "react-icons/cg";
 // import PortableText from 'react-portable-text';
+import { cartContext } from "@/global/Context";
 
 const builder: any = imageUrlBuilder(client);
 
@@ -19,6 +20,10 @@ function urlFor(source: any) {
 const ProductDetail: FC<{ item: oneProductType }> = ({ item }) => {
   // console.log(item)
 
+  // yha context ko use kr rha hn global context mai as ko create kiya h
+  let {state, dispatch } = useContext(cartContext);
+  // console.log(dispatch);
+  
   // usestate bnai h ta k image ko bri bri rander krwa k show krn
   const [imageForPreviewOfSelected, setImageForPreviewOfSelected] =
     useState<string>(item.image[0]._key);
@@ -27,20 +32,27 @@ const ProductDetail: FC<{ item: oneProductType }> = ({ item }) => {
   // use state for quantity
   const [quantity, setQuantity] = useState(1);
 
-
-
-
-
   // button increment and decrement function
-  function incrementTheQuantity (){
-    setQuantity(quantity + 1)
-}
+  function incrementTheQuantity() {
+    setQuantity(quantity + 1);
+  }
 
-function decrementTheQuantity (){
-    if (quantity !== 1){
-        setQuantity(quantity - 1)
+  function decrementTheQuantity() {
+    if (quantity !== 1) {
+      setQuantity(quantity - 1);
     }
-}
+  }
+
+  // AddToCart
+  function handleAddToCart(){
+    let dataToAddInCart = {
+      productId:item._id,
+      quantity:quantity,
+    }
+    dispatch({payload:"addToCart",data: dataToAddInCart});
+    // console.log("this is state : ",state)
+
+  }
   return (
     <div>
       <div className="flex flex-col lg:flex-row justify-center items-center py-7">
@@ -104,17 +116,23 @@ function decrementTheQuantity (){
           <div className="flex space-x-7">
             <p className="font-bold">Quantity:</p>
             <div className="flex gap-2 items-center">
-              <div onClick={decrementTheQuantity} className="select-none flex justify-center items-center w-9 h-9 rounded-full bg-gray-100 cursor-pointer">
+              <div
+                onClick={decrementTheQuantity}
+                className="select-none flex justify-center items-center w-9 h-9 rounded-full bg-gray-100 cursor-pointer"
+              >
                 -
               </div>
               <p className="font-semibold text-lg text-gray-700">{quantity}</p>
-              <div onClick={incrementTheQuantity} className="select-none flex justify-center items-center w-9 h-9 rounded-full border border-gray-700 cursor-pointer">
+              <div
+                onClick={incrementTheQuantity}
+                className="select-none flex justify-center items-center w-9 h-9 rounded-full border border-gray-700 cursor-pointer"
+              >
                 +
               </div>
             </div>
           </div>
           <div className="flex gap-x-4 items-center">
-            <button className="text-white bg-black border border-gray-800 px-3 py-2 flex items-center">
+            <button onClick={()=>handleAddToCart()} className="text-white bg-black border border-gray-800 px-3 py-2 flex items-center">
               <CgShoppingCart size={25} /> &nbsp;&nbsp; Add to Cart
             </button>
             <p className="text-2xl font-bold">
