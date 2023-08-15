@@ -37,7 +37,7 @@ const ContextWrapper = ({ children }: { children: ReactNode }) => {
     ],
   };
 
-  // old product and new products quantity add hte jyn gy
+  // old product and new products quantity add hte jyn gy.dispatch se valus set or state se value get krte
   const [state, dispatch] = useReducer(cartReducer, iniatizilerOfCart);
   // console.log("want to be update: ",state)
   useEffect(()=>{

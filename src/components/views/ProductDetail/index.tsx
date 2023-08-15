@@ -8,8 +8,9 @@ import { client } from "../../../../sanity/lib/client";
 import Image from "next/image";
 import imageUrlBuilder from "@sanity/image-url";
 import { CgShoppingCart } from "react-icons/cg";
-// import PortableText from 'react-portable-text';
+import PortableText from 'react-portable-text';
 import { cartContext } from "@/global/Context";
+import toast, { Toaster } from 'react-hot-toast'
 
 const builder: any = imageUrlBuilder(client);
 
@@ -43,6 +44,14 @@ const ProductDetail: FC<{ item: oneProductType }> = ({ item }) => {
     }
   }
 
+    // toaster ko install kr k ye function bnana h or jha use krna ho wha function ko call kr dena h
+const notification = (title:string) => { toast(` ${quantity} ${title} added to Cart`,{
+  icon:'✔️',
+  duration:2000,
+  // position: "top-right"
+})
+}
+
   // AddToCart
   function handleAddToCart(){
     let dataToAddInCart = {
@@ -52,9 +61,11 @@ const ProductDetail: FC<{ item: oneProductType }> = ({ item }) => {
     dispatch({payload:"addToCart",data: dataToAddInCart});
     // console.log("this is state : ",state)
 
+    notification(item.productName)
   }
   return (
     <div>
+      <Toaster/>
       <div className="flex flex-col lg:flex-row justify-center items-center py-7">
         {/* left side main div  */}
         <div className="flex gap-x-4 md:gap-x-6">
@@ -142,6 +153,7 @@ const ProductDetail: FC<{ item: oneProductType }> = ({ item }) => {
           </div>
         </div>
       </div>
+
       <div>
         <div className="relative py-12 px-2 border-b-2 border-gray-400">
           <h2 className="absolute top-0 -z-10 text-5xl md:text-9xl leading-[6rem] font-extrabold text-[#ECEDEF]">
@@ -155,7 +167,7 @@ const ProductDetail: FC<{ item: oneProductType }> = ({ item }) => {
             <div className="w-80">
               <h3 className="font font-medium">PRODUCT DETAILS</h3>
             </div>
-            {/* <p><PortableText content = {item.description}/></p> */}
+            <p><PortableText content = {item.description}/></p>
           </div>
 
           <div className="flex px-2 py-4">

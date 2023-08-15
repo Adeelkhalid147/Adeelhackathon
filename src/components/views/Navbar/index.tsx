@@ -10,12 +10,15 @@ import DropDown from "./subComponents/DropDown";
 import { GiHamburgerMenu } from "react-icons/gi"
 import { IoIosClose } from "react-icons/io"
 import Expand from "./subComponents/Expand";
+import ContextWrapper from "@/global/Context";
+import Cartstate from "./subComponents/Cartstate";
 
 const Navbar = () => {
     const [isNavbarOpen,setNavbarOpen]=useState<boolean>(false)
     const [cartItemNumber,setcartItemNumber] = useState<number>(0)
   return (
-     <div className=' sticky top-0 bg-opacityDownColor z-20 backdrop-blur-lg'>
+       <ContextWrapper>
+    <div className=' sticky top-0 bg-opacityDownColor z-20 backdrop-blur-lg'>
     <div className='py-8 flex justify-between items-center space-x-12'>
         {/* image div */}
       <div className="w-36 flex-shrink-0">
@@ -48,13 +51,14 @@ const Navbar = () => {
     </div>
 
     {/* shopping cart */}
-    <div className='flex-shrink bg-[#F1F1F1] relative rounded-full h-10 w-10 flex justify-center items-center'>
+    <Cartstate/>
+    {/* <div className='flex-shrink bg-[#F1F1F1] relative rounded-full h-10 w-10 flex justify-center items-center'>
     <div className='absolute bg-[#F02D34] h-3 w-3 text-xs rounded-full flex justify-center items-center top-1 right-1'>
         3
     </div>
     <CgShoppingCart size={25}/>
-    </div>
-    </div>
+    </div>*/}
+    </div> 
 
 
 
@@ -77,6 +81,8 @@ const Navbar = () => {
         isNavbarOpen && <MobileNavbar/>
     }
     </div>
+    </ContextWrapper>
+   
   );
 };
 
