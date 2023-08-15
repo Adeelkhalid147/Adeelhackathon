@@ -29,12 +29,7 @@ interface indexForError {
 const ContextWrapper = ({ children }: { children: ReactNode }) => {
  
   const iniatizilerOfCart = {
-    cart: [
-      {
-        productId: "",
-        quantity: 2,
-      },
-    ],
+    cart: [],
   };
 
   // old product and new products quantity add hte jyn gy.dispatch se valus set or state se value get krte
