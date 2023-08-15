@@ -8,7 +8,7 @@ const Cartstate = () => {
   const isBrowser = () => typeof window !== undefined
   useEffect(()=> {
     let data = localStorage.getItem("Cart") as string;
-    setQuantity(JSON.parse(data).length)
+    // setQuantity(JSON.parse(data).length)
   },[])
 
   if (isBrowser()) {
