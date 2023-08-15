@@ -1,3 +1,4 @@
+"use client"
 import { cartContext } from "@/global/Context";
 import { useContext, useEffect, useState } from "react";
 import { CgShoppingCart } from "react-icons/cg";
