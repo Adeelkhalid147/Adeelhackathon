@@ -1,6 +1,8 @@
 "use client";
-import { ReactNode, createContext, useEffect, useReducer } from "react";
+import { ReactNode, createContext, useEffect, useReducer, useState } from "react";
 import { cartReducer } from "../reducer";
+import { auth } from "@/lib/firebase";
+import { createUserWithEmailAndPassword, onAuthStateChanged, sendEmailVerification, signInWithEmailAndPassword, signOut } from "firebase/auth";
 
 {
   /* 
@@ -27,6 +29,7 @@ interface indexForError {
 }
 
 const ContextWrapper = ({ children }: { children: ReactNode }) => {
+  const [userData, setUserData] = useState<any>()
  
   const iniatizilerOfCart = {
     cart: [],
@@ -47,6 +50,46 @@ const ContextWrapper = ({ children }: { children: ReactNode }) => {
   useEffect(()=>{
     localStorage.setItem("cart",JSON.stringify(state.cart))
   },[state.cart])
+
+
+  /*
+firebase work start from here
+*/
+
+
+  let user = auth.currentUser
+  useEffect(() => {
+    onAuthStateChanged(auth,(user:any)=>{
+      
+      if(user){
+        setUserData({
+          displayName:user.displayName,
+          email:user.email,
+          uuid:user.uid
+        })
+      } else{
+        setUserData(null)
+      }
+    })
+  }, [])
+  console.log(userData)
+  
+
+  function signUpUser(email:string,password:string){
+    return createUserWithEmailAndPassword(auth,email,password)
+  }
+
+  
+
+  function signInUser(email:string,password:string){
+    return signInWithEmailAndPassword(auth,email,password)
+  }
+
+  function LogOut(){
+    signOut(auth)
+  }
+
+
   /* 
     name k variable mai jo stor h wo neche cartcontext.provider k value mai dia h or as ka output productDetail
      k (useContext) mai ae ga
@@ -55,10 +98,26 @@ const ContextWrapper = ({ children }: { children: ReactNode }) => {
   return (
     // as mai do cheze hai value provider or value consume yha hm provider use kren gy
 
-    <cartContext.Provider value={{ state, dispatch }}>
+    <cartContext.Provider value={{ state, dispatch, signUpUser }}>
       {children}
     </cartContext.Provider>
   );
 };
 
 export default ContextWrapper;
+
+
+
+
+
+// firebase provided function
+/* 
+createUserWithEmailAndPassword()
+signInWithEmailAndPassword()
+signOut()
+onAuthStateChanged()
+sendEmailVerification()
+
+
+
+*/
