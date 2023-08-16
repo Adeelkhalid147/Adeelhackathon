@@ -52,7 +52,7 @@ const CartComp =  ({allProductsOfStore}:{allProductsOfStore:Array<oneProductType
     <div key={index}  className='flex flex-shrink-0 gap-6'>
     <div className='w-56 '>
     
-    <Image className='rounded-lg'  src={(urlFor(item.image[0]).width(1000).height(1000).url())} alt={item.image[0].alt}  height={1000} width={1000} />
+    <Image className='rounded-lg' src={(urlFor(item.image[0]).width(1000).height(1000).url())} alt={item.image[0].alt}  height={1000} width={1000} />
   </div>
 
   <div className='space-x-3 space-y-1 md:space-y-3 w-full'>
