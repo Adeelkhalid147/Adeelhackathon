@@ -2,7 +2,7 @@
 import { ReactNode, createContext, useEffect, useReducer, useState } from "react";
 import { cartReducer } from "../reducer";
 import { auth } from "@/lib/firebase";
-import { createUserWithEmailAndPassword, onAuthStateChanged, sendEmailVerification, signInWithEmailAndPassword, signOut } from "firebase/auth";
+import { GoogleAuthProvider, createUserWithEmailAndPassword, onAuthStateChanged, sendEmailVerification, signInWithEmailAndPassword, signInWithPopup, signOut } from "firebase/auth";
 
 {
   /* 
@@ -30,6 +30,8 @@ interface indexForError {
 
 const ContextWrapper = ({ children }: { children: ReactNode }) => {
   const [userData, setUserData] = useState<any>()
+  const [loading,setLoading] = useState(false)   //loading as liye k user ak dfa click kre or wait kre ye na ho user bar bar click he krta jae or request jti jyn. by defult false ka mtlb k start mai ni ho ri click krne pe ho gey
+  
  
   const iniatizilerOfCart = {
     cart: [],
@@ -58,35 +60,71 @@ firebase work start from here
 
 
   let user = auth.currentUser
+  console.log(user,"user data : ", userData)
+  // page jb load ho ga tb ye chle ga
   useEffect(() => {
+    // agr user login hwa to if use ho ga ni to else ye user k liye bnya h function(onAuthStateChanged) firebase ka function h ye
     onAuthStateChanged(auth,(user:any)=>{
-      
       if(user){
         setUserData({
           displayName:user.displayName,
           email:user.email,
-          uuid:user.uid
+          uuid:user.uid,
+          photoUrl: user.photoUrl,
+          emailVerified: user.emailVarified
         })
       } else{
         setUserData(null)
       }
     })
   }, [])
-  console.log(userData)
+  // console.log(userData)
   
 
+  let provider = new GoogleAuthProvider()
+
+  function signUpViaGoogle(){
+    setLoading(true)
+    return signInWithPopup(auth,provider).then((userData:any)=>{
+      if(userData){
+        setUserData({
+          displayName:userData.user.displayName,
+          email:userData.user.email,
+          uuid:userData.user.uid,
+          photoUrl:userData.user.photoUrl,
+          emailVerified: userData.user.emailVarified,
+        })
+      }
+      setLoading(false)
+
+    })
+  }
+
   function signUpUser(email:string,password:string){
-    return createUserWithEmailAndPassword(auth,email,password)
+    setLoading(true) // user jse he click kre ga loading true ho gey 
+    createUserWithEmailAndPassword(auth,email,password).then((res:any) =>{
+      setLoading(false) // promis jb fulfil ho ga to false ho jae gy
+    }).catch((res:any)=>{
+
+    })
+    setLoading(false)
   }
 
   
 
   function signInUser(email:string,password:string){
-    return signInWithEmailAndPassword(auth,email,password)
+    setLoading(true)
+    return signInWithEmailAndPassword(auth,email,password).then((res:any) =>{
+      setLoading(false)
+      }).catch((res:any)=>{
+
+      })
   }
 
   function LogOut(){
+    setLoading(true)
     signOut(auth)
+    setLoading(false)
   }
 
 
@@ -98,7 +136,7 @@ firebase work start from here
   return (
     // as mai do cheze hai value provider or value consume yha hm provider use kren gy
 
-    <cartContext.Provider value={{ state, dispatch, signUpUser }}>
+    <cartContext.Provider value={{ state, dispatch, signUpUser, signUpViaGoogle,LogOut }}>
       {children}
     </cartContext.Provider>
   );
@@ -117,7 +155,7 @@ signInWithEmailAndPassword()
 signOut()
 onAuthStateChanged()
 sendEmailVerification()
-
+signInWithPopup()
 
 
 */

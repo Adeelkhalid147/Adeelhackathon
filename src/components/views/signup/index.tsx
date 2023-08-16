@@ -1,7 +1,8 @@
 "use client";
-
+import { ImGoogle } from "react-icons/im";
 import { cartContext } from "@/global/Context";
 import { useContext, useState } from "react";
+import Link from "next/link";
 
 
 type SignupFormData = {
@@ -9,6 +10,9 @@ type SignupFormData = {
   email: string;
   password: string;
 };
+
+
+
 
 const SignupFormComp = () => {
     let {
@@ -35,6 +39,12 @@ const SignupFormComp = () => {
   };
 
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
+
+
+  function handleSignupWithGoogle(){
+    // console.log("called")
+    signUpViaGoogle()
+  }
 
   const handleSignup = () => {
     
@@ -148,12 +158,55 @@ const SignupFormComp = () => {
 
 
         {/* Submit Button */}
-        <button
+        <div className="flex items-center justify-center py-3">
+          <button
+            className="border flex gap-2 items-center justify-center bg-purple-100 hover:bg-purple-200 text-blue-400 font-semibold py-2 px-6 rounded focus:outline-none focus:shadow-outline"
+            type="button"
+            onClick={handleSignupWithGoogle}
+          >
+            <ImGoogle size={25} fill="#3ABD46" />
+            SignUp With Google
+          </button>
+        </div>
+
+        {/* Already have account */}
+        <div className="flex items-center justify-between space-x-2">
+          <Link className="text-blue-400 text-sm" href={"/login"}>
+            Already have an account?
+          </Link>
+          <button
+            disabled={loading}
+            className="bg-purple-500 hover:bg-purple-700 text-white font-bold py-2 md:px-5 rounded focus:outline-none focus:shadow-outline"
+            type="button"
+            onClick={handleSignup}
+          >
+            {loading ? "Loading..." : "Signup"}
+          </button>
+        </div>
+
+        {userData && (
+          <div className="mt-3 flex flex-col justify-center items-center">
+            <p>Send Varification Email</p>
+            <button
+              className="bg-purple-500 hover:bg-purple-700 text-white font-bold py-2 px-5 rounded focus:outline-none focus:shadow-outline"
+              onClick={sendEmailVerificationCode}
+            >
+              Send
+            </button>
+          </div>
+        )}
+
+
+
+
+
+        {/* bbbbbbb */}
+        {/* <button
           onClick={handleSignup}
           className="bg-purple-500 hover:bg-purple-700 text-white font-bold py-2 md:px-5 rounded focus:outline-none focus:shadow-outline"
         >
           Sign Up
-        </button>
+        </button> */}
       </div>
     </div>
   );
