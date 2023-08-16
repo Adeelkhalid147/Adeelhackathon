@@ -5,7 +5,15 @@ import Image from 'next/image'
 import {  useEffect, useState } from 'react'
 import { Toaster } from 'react-hot-toast'
 import { RiDeleteBinLine } from 'react-icons/ri'
+import imageUrlBuilder from "@sanity/image-url" //function built-in h
+import { client } from '../../../../../sanity/lib/client'
 
+
+const builder = imageUrlBuilder(client)   //sanity k sth connection bnane k liye
+
+function urlFor(source: any) {
+  return builder.image(source);
+}
 
 
 const CartComp =  ({allProductsOfStore}:{allProductsOfStore:Array<oneProductType>}) => {
@@ -44,7 +52,7 @@ const CartComp =  ({allProductsOfStore}:{allProductsOfStore:Array<oneProductType
     <div key={index}  className='flex flex-shrink-0 gap-6'>
     <div className='w-56 '>
     
-    <Image className='rounded-lg' src="https://cdn.sanity.io/images/dow10h3v/production/a6a38f6a1f31dafe5f3294a4384f865b7d25a344-370x394.png" alt="Nothing" height={1000} width={1000} />
+    <Image className='rounded-lg'  src={(urlFor(item.image[0]).width(1000).height(1000).url())} alt={item.image[0].alt}  height={1000} width={1000} />
   </div>
 
   <div className='space-x-3 space-y-1 md:space-y-3 w-full'>
@@ -108,11 +116,6 @@ const CartComp =  ({allProductsOfStore}:{allProductsOfStore:Array<oneProductType
     </button>
     </div>
     </div>
-
-
-
-
-
 
 
     </div>

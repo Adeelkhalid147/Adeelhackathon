@@ -1,7 +1,7 @@
 import React, { FC } from 'react'
 import { oneProductType } from '../utils/ProductsDataArrayAndType'
 import Image from 'next/image'
-import imageUrlBuilder from "@sanity/image-url" //function builtin h
+import imageUrlBuilder from "@sanity/image-url" //function built-in h
 import { client } from '../../../sanity/lib/client'
 import Link from "next/link";
 
