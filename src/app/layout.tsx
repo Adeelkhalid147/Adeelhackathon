@@ -21,8 +21,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <Wrapper>
+      <div className='overflow-hidden w-screen'>
           <TopLabel/>
+          </div>
+        <Wrapper>
         <Navbar/>
         {children}
         <Footer/>
