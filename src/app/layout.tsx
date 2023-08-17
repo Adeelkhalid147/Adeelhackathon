@@ -3,6 +3,7 @@ import './globals.css'
 import { Sora } from 'next/font/google'
 import Wrapper from '@/components/shared/Wrapper'
 import Footer from '@/components/Footer'
+import TopLabel from '@/components/views/TopLabel'
 
 const inter = Sora({ subsets: ['latin'],
 weight:["100","200","300","400","500","600"] })
@@ -21,6 +22,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <Wrapper>
+          <TopLabel/>
         <Navbar/>
         {children}
         <Footer/>

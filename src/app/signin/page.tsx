@@ -1,9 +1,13 @@
+import SignInForm from '@/components/views/signInForm'
+import ContextWrapper from '@/global/Context'
 import React from 'react'
 
-const page = () => {
+const SignIn = () => {
   return (
-    <div>page</div>
+    <ContextWrapper>
+        <SignInForm/>
+    </ContextWrapper>
   )
 }
 
-export default page
+export default SignIn
