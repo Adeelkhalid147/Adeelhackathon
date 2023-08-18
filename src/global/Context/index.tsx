@@ -2,7 +2,7 @@
 import { ReactNode, createContext, useEffect, useReducer, useState } from "react";
 import { cartReducer } from "../reducer";
 import { auth } from "@/lib/firebase";
-import { GoogleAuthProvider, createUserWithEmailAndPassword, onAuthStateChanged, sendEmailVerification, signInWithEmailAndPassword, signInWithPopup, signOut } from "firebase/auth";
+import { GoogleAuthProvider, createUserWithEmailAndPassword, onAuthStateChanged, sendEmailVerification, signInWithEmailAndPassword, signInWithPopup, signOut, updateProfile, } from "firebase/auth";
 import { useRouter } from 'next/navigation';
 
 {
@@ -80,7 +80,7 @@ firebase work start from here
       }
     })
   }, [])
-  // console.log(userData)
+  console.log(user)
   
 
   let provider = new GoogleAuthProvider()
@@ -109,7 +109,7 @@ firebase work start from here
       setLoading(false) // promis jb fulfil ho ga to false ho jae gy
       router.push("/")
     }).catch((res:any)=>{
-
+      setLoading(false)
     })
     setLoading(false)
   }
@@ -120,7 +120,7 @@ firebase work start from here
     setLoading(true)
     return signInWithEmailAndPassword(auth,email,password).then((res:any) =>{
       setLoading(false)
-      router.push("/")
+     
       }).catch((res:any)=>{
 
       })
@@ -134,6 +134,36 @@ firebase work start from here
   }
 
 
+  function sendEmailVerificationCode(){
+    setLoading(true)
+    if(user){
+        sendEmailVerification(user).then((res:any)=>{
+            // console.log("sended")
+            window.location.href = "/"
+
+        })
+        setLoading(false)
+
+    }
+}
+
+
+
+function updateUserNamePhoto(userName:string,photoURL?:string){
+  setLoading(true)
+  if(user) {
+  updateProfile(user, {
+      displayName: userName , photoURL: "https://myportfolio-alpha-neon.vercel.app/_next/image?url=%2Fadeel.jpeg&w=828&q=75"
+    }).then(() => {
+     setLoading(false)
+     window.location.reload()
+    }).catch((error:any) => {
+      setLoading(false)
+    });
+}
+
+}
+
   /* 
     name k variable mai jo stor h wo neche cartcontext.provider k value mai dia h or as ka output productDetail
      k (useContext) mai ae ga
@@ -142,7 +172,7 @@ firebase work start from here
   return (
     // as mai do cheze hai value provider or value consume yha hm provider use kren gy
 
-    <cartContext.Provider value={{ state, userData, dispatch, signUpUser, signUpViaGoogle, LogOut, signInUser, loading }}>
+    <cartContext.Provider value={{ sendEmailVerificationCode, updateUserNamePhoto, state, userData, dispatch, signUpUser, signUpViaGoogle, LogOut, signInUser, loading }}>
       {children}
     </cartContext.Provider>
   );

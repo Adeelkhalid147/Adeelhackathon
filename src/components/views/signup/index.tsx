@@ -1,14 +1,21 @@
 "use client";
 import { ImGoogle } from "react-icons/im";
 import { cartContext } from "@/global/Context";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import Link from "next/link";
+import toast, { Toaster } from "react-hot-toast";
 
 
 type SignupFormData = {
   fullName: string;
   email: string;
   password: string;
+};
+
+const notificationError = (title: string) => {
+  toast(title, {
+    position: "top-center",
+  });
 };
 
 
@@ -23,6 +30,18 @@ const SignupFormComp = () => {
         loading,
         sendEmailVerificationCode,
       } = useContext(cartContext);
+
+
+      useEffect(() => {
+        if (userData) {
+          window.location.href = "/"
+        }
+        if (errorsOfFirebase.errorMessage.length > 0) {
+          notificationError(errorsOfFirebase.errorMessage)
+        };
+      }, [userData, errorsOfFirebase]);
+
+
    
   const [formData, setFormData] = useState<SignupFormData>({
     fullName: "",
@@ -198,15 +217,6 @@ const SignupFormComp = () => {
 
 
 
-
-
-        {/* bbbbbbb */}
-        {/* <button
-          onClick={handleSignup}
-          className="bg-purple-500 hover:bg-purple-700 text-white font-bold py-2 md:px-5 rounded focus:outline-none focus:shadow-outline"
-        >
-          Sign Up
-        </button> */}
       </div>
     </div>
   );

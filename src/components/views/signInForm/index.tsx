@@ -3,12 +3,31 @@
 import { ImGoogle } from 'react-icons/im';
 import { cartContext } from '@/global/Context';
 import { useContext, useEffect, useState } from 'react';
+import toast, { Toaster } from 'react-hot-toast';
+
+
+const notificationError = (title: string) => {
+  toast(title, {
+    position: "top-center"
+  })
+};
 
 
 
 const SignInForm = () => {
     let { signUpViaGoogle, userData, signInUser, loading, errorsOfFirebase} = useContext(cartContext)
   const [formData, setFormData] = useState({ email: '', password: '' });
+
+  useEffect(() => {
+    if (userData) {
+        window.location.href = "/"
+    }
+    if (errorsOfFirebase.errorMessage.length > 0) {
+        notificationError(errorsOfFirebase.errorMessage)
+    };
+}
+, [userData, errorsOfFirebase]
+);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
