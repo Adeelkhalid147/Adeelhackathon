@@ -22,9 +22,9 @@ const SignInForm = () => {
     if (userData) {
         window.location.href = "/"
     }
-    if (errorsOfFirebase.errorMessage.length > 0) {
-        notificationError(errorsOfFirebase.errorMessage)
-    };
+    // if (errorsOfFirebase.errorMessage.length > 0) {
+    //     notificationError(errorsOfFirebase.errorMessage)
+    // };
 }
 , [userData, errorsOfFirebase]
 );
