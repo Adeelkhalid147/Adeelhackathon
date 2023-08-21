@@ -25,6 +25,7 @@ const notificationError = (title:string) =>{ toast(title,{
 
 
 const CartComp =  ({allProductsOfStore}:{allProductsOfStore:Array<oneProductType>}) => {
+  const [loadings, setLoadings] = useState<boolean>(false)
  const [allProductsForCart, setAllProductsForCart] = useState<any>()
  let { userData, cartArray, dispatch, loading, setLoading } = useContext(cartContext)
  const [totalPrice,setTotalPrice] = useState(0)
@@ -127,7 +128,7 @@ const CartComp =  ({allProductsOfStore}:{allProductsOfStore:Array<oneProductType
 
 
   async function handleProcessCheckout() {
-    setLoading(true)
+    setLoadings(true)
     let linkOrg:any = await fetch(`/api/checkout_sessions`,{
       method:"POST",
       body:JSON.stringify(allProductsForCart)
@@ -136,7 +137,7 @@ const CartComp =  ({allProductsOfStore}:{allProductsOfStore:Array<oneProductType
     let { link } = await linkOrg.json()
     window.location.href = link
   }
-  setLoading(false)
+  setLoadings(false)
 }
   
   return (
@@ -209,7 +210,9 @@ const CartComp =  ({allProductsOfStore}:{allProductsOfStore:Array<oneProductType
   <button 
   onClick={handleProcessCheckout}
   className='text-white bg-black border border-gray-800 font-bold px-4 py-2 w-full'>
-    Process to Checkout
+     { loadings ? "Loading..." :
+    "Process to Checkout"
+    }
     </button>
     </div>
     </div>
