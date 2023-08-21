@@ -22,7 +22,7 @@ const ProductDetail: FC<{ item: oneProductType }> = ({ item }) => {
   // console.log(item)
 
   // yha context ko use kr rha hn global context mai as ko create kiya h
-  let {state, dispatch } = useContext(cartContext);
+  let { cartArray, dispatch, userData } = useContext(cartContext)
   // console.log(dispatch);
   
   // usestate bnai h ta k image ko bri bri rander krwa k show krn
@@ -32,6 +32,39 @@ const ProductDetail: FC<{ item: oneProductType }> = ({ item }) => {
 
   // use state for quantity
   const [quantity, setQuantity] = useState(1);
+
+
+  // AddToCart
+  function handleAddToCart(){
+    let isExists = cartArray.some((elem:any) => elem.product_id === item._id)
+   
+    if(userData){
+    let dataToAddInCart = {
+      product_id:item._id,
+      quantity:quantity,
+      user_id:userData.uuid,
+      price:item.price,
+    }
+    if(!isExists){
+    dispatch("addToCart",dataToAddInCart);
+    // dispatch({payload:"addToCart",data: dataToAddInCart});
+    // console.log("this is state : ",state)
+  }else{
+    dispatch("updateCart", dataToAddInCart)
+  }
+    notification(item.productName)
+  } else{
+    notificationError("please login first")
+  }
+  };
+
+
+
+
+
+
+
+
 
   // button increment and decrement function
   function incrementTheQuantity() {
@@ -50,19 +83,18 @@ const notification = (title:string) => { toast(` ${quantity} ${title} added to C
   duration:2000,
   // position: "top-right"
 })
+// jb login ni hn gy to addtocart krne pe ye pop-up ae ga
+}
+const notificationError= (title:string) => { toast(title,{
+  position: "top-center"
+})
 }
 
-  // AddToCart
-  function handleAddToCart(){
-    let dataToAddInCart = {
-      productId:item._id,
-      quantity:quantity,
-    }
-    dispatch({payload:"addToCart",data: dataToAddInCart});
-    // console.log("this is state : ",state)
+  
 
-    notification(item.productName)
-  }
+
+
+
   return (
     <div>
       <Toaster/>

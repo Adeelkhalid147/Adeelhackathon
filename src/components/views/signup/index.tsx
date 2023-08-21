@@ -36,9 +36,9 @@ const SignupFormComp = () => {
         if (userData) {
           window.location.href = "/"
         }
-        // if (errorsOfFirebase.errorMessage.length > 0) {
-        //   notificationError(errorsOfFirebase.errorMessage)
-        // };
+        if (errorsOfFirebase.errorMessage.length > 0) {
+          notificationError(errorsOfFirebase.errorMessage)
+        };
       }, [userData, errorsOfFirebase]);
 
 
@@ -99,6 +99,7 @@ const SignupFormComp = () => {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen">
+      <Toaster/>
       <div className="bg-slate-100 shadow-2xl border-t-8 border-pink-700 rounded-xl px-4 md:px-8 pt-6 pb-8">
         <h2 className="text-2xl font-bold mb-4">Sign Up</h2>
      {/* Enter your full name */}

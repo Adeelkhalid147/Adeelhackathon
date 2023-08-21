@@ -16,10 +16,10 @@ const Cart = async () => {
   let allProductsOfStore = await fatchAllStoreProducts()
   // console.log("abc:",allProductsOfStore)
   return (
-    <div>
+    <ContextWrapper>
       {/* @ts-ignore */}
       <CartComp allProductsOfStore={allProductsOfStore.result}/>
-      </div>
+      </ContextWrapper>
   )
 }
 
