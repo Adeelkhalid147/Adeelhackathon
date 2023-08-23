@@ -87,13 +87,13 @@ const [quantity,setQuantity] = useState(0)
   // dispatch ka function post k request kre ga data add kr de ga database mai
   async function dispatch(payLoad: string, data: any) {
     if (payLoad === "addToCart") {
-      await fetch(`${BASE_PATH_FORAPI}/api/cartfunc`, {
+      await fetch(`/api/cartfunc`, {
         method: "POST",
         body: JSON.stringify(data),
       });
     } else if (payLoad === "removeFromCart") {
       let dataa = await fetch(
-        `${BASE_PATH_FORAPI}/api/cartfunc?product_id=${data.product_id}&user_id=${data.user_id}`,
+        `/api/cartfunc?product_id=${data.product_id}&user_id=${data.user_id}`,
         {
           method: "DELETE",
         }
@@ -102,7 +102,7 @@ const [quantity,setQuantity] = useState(0)
     } else if (payLoad === "updateCart") {
       setLoading(true)
       let dataa = await fetch(
-        `${BASE_PATH_FORAPI}/api/cartfunc`,
+        `/api/cartfunc`,
         {
           method: "PUT",
           body:JSON.stringify(data)
@@ -201,6 +201,7 @@ firebase work start from here
           errorMessage: error
         })
       });
+      setLoading(false)
   }
 
 
@@ -262,6 +263,8 @@ firebase work start from here
         signInUser,
         loading,
         errorsOfFirebase,
+        quantity,
+        setQuantity,
       }}
     >
       {children}
