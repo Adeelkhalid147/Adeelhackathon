@@ -28,7 +28,7 @@ export function cartReducer(state: any, action: any) {
     }
 }
   } else if (action.payload === "removeToCart") {
-    return "";
+    return " ";
   }else if(action.payload === "updateToCart") {
     return state
   }

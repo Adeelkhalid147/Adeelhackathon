@@ -5,13 +5,15 @@ import { useContext, useEffect, useState } from "react";
 import { CgShoppingCart } from "react-icons/cg";
 
 const Cartstate = () => {
-  let { cartArray } = useContext(cartContext)
-  const [quantity, setQuantity] = useState(0)
+  let { cartArray,quantity } = useContext(cartContext);
+
+  // let { cartArray } = useContext(cartContext)
+  // const [quantity, setQuantity] = useState(0)
   
-  useEffect(()=> {
-    if (cartArray.length !== 0)
-    setQuantity(cartArray.length)
-  },[cartArray])
+  // useEffect(()=> {
+  //   if (cartArray.length !== 0)
+  //   setQuantity(cartArray.length)
+  // },[cartArray])
 
   
   return (

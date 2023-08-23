@@ -20,7 +20,7 @@ const SubComp = () => {
   function handleEditName(){
     updateUserNamePhoto(nameOf)
     setUserEditingName(false)
-    window.location.reload()
+    
   }
 
 
@@ -68,15 +68,15 @@ const SubComp = () => {
              type="text" className="text-gray-700 w-full outline-gray-300 rounded-l-md hover:outline-purple-600"/>
             <button onClick={handleEditName} className="rounded-r-lg py-1 px-2 border ">Done</button>
             </div>)}
-          <h3 className="text-base font-semibold"> <b> Name : </b> {name?name: "NOT SETTED"}</h3>
-          {!name && (
+          <h3 className="text-base font-semibold"> <b> Name : </b> {name ? name: "NOT SETTED"}</h3>
+          {
            <button className="underline text-blue-400 text-sm" onClick={()=>setUserEditingName(true)}>Edit Name</button>
-          )
-
           }
           <h4 className="text-base"> <b> Email : </b> {userData.email}</h4>
           <p className="text-sm"> <b> Is Email Varified : </b> {userData.emailVerified ? "varified" : "Un-Varified"}</p>
+          {!userData.emailVerified &&
           <button className="underline text-blue-400 text-sm" onClick={sendEmailVerificationCode}>Varify Email</button>
+          }
           <p className="my-2 text-xs text-red-500 font-light">Please check your inbox after clicking Email </p>
           <p className="my-2 text-xs text-red-500 font-light">If changes did not reflected please refresh </p>
           <button className="w-full border rounded-lg p-2" onClick={LogOut}>Log Out</button>

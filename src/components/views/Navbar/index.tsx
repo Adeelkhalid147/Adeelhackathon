@@ -15,7 +15,7 @@ import Cartstate from "./subComponents/Cartstate";
 
 const Navbar = () => {
     const [isNavbarOpen,setNavbarOpen]=useState<boolean>(false)
-    const [cartItemNumber,setcartItemNumber] = useState<number>(0)
+    
   return (
        <ContextWrapper>
     <div className=' sticky top-0 bg-opacityDownColor z-20 backdrop-blur-lg'>
@@ -63,7 +63,7 @@ const Navbar = () => {
 
 
     {/* navbar burger and cross close icon  */}
-    <div onClick={()=>setNavbarOpen(!isNavbarOpen)}>
+    <div className="cursor-pointer" onClick={()=>setNavbarOpen(!isNavbarOpen)}>
         {isNavbarOpen?
     <div className='flex lg:hidden'>
         <IoIosClose size={25}/>
