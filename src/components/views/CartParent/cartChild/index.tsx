@@ -8,15 +8,16 @@ import { RiDeleteBinLine } from 'react-icons/ri'
 import imageUrlBuilder from "@sanity/image-url" //function built-in h
 import { client } from '../../../../../sanity/lib/client'
 import { useRouter } from "next/navigation"
+import LoadingComp from '@/components/shared/LoadingComp'
+
+
+
 
 
 const builder:any = imageUrlBuilder(client)   //sanity k sth connection bnane k liye
-
 function urlFor(source: any) {
   return builder.image(source);
 }
-
-
 
 const notificationError = (title:string) =>{ toast(title,{
   position: "top-center"
@@ -25,13 +26,11 @@ const notificationError = (title:string) =>{ toast(title,{
 
 
 const CartComp =  ({allProductsOfStore}:{allProductsOfStore:Array<oneProductType>}) => {
-  const [loadings, setLoadings] = useState<boolean>(false)
+const [loadings, setLoadings] = useState<boolean>(false)
  const [allProductsForCart, setAllProductsForCart] = useState<any>()
  let { userData, cartArray, dispatch, loading, setLoading } = useContext(cartContext)
  const [totalPrice,setTotalPrice] = useState(0)
  let router = useRouter()
-
-
 
  function PriceSubTotal () {
   let orignalToSend:number = 0
@@ -94,7 +93,7 @@ const CartComp =  ({allProductsOfStore}:{allProductsOfStore:Array<oneProductType
       stableQuantity = element.quantity
     }
   });
-  await dispatch("updateCart",{
+  let returnedVal = await dispatch("updateCart",{
       product_id: product_id,
       quantity: stableQuantity + 1,
       user_id: userData.uuid,
@@ -151,7 +150,8 @@ const CartComp =  ({allProductsOfStore}:{allProductsOfStore:Array<oneProductType
     <div className='flex flex-col lg:flex-row gap-6'>
     <div className='flex flex-col basis-[69%] gap-2'>
 
-    {allProductsForCart && allProductsForCart.map((item:oneProductType,index:number) => (
+    {allProductsForCart ? allProductsForCart.map((item:oneProductType,index:number) => {
+      return (
     <div key={index}  className='flex flex-shrink-0 gap-6'>
     <div className='w-56 '>
     
@@ -161,9 +161,11 @@ const CartComp =  ({allProductsOfStore}:{allProductsOfStore:Array<oneProductType
   <div className='space-x-3 space-y-1 md:space-y-3 w-full'>
     <div className='flex justify-between'>
     <h2 className='md:text-xl text-gray-700 font-light'>{item.productName}</h2>
-    <div onClick={()=>handleRemove(item._id)} className='cursor-pointer'>
-    <RiDeleteBinLine size={25}/>
-    </div>
+    {loading ? <LoadingComp size={"w-7"}/>:
+     <div className='cursor-pointer' onClick={() => handleRemove(item._id)}>
+      <RiDeleteBinLine size={25}/>
+      </div>
+}
 
     </div>
     <p className='text-gray-400 font-medium'>{item.productTypes[0] ? item.productTypes[0] : "All"}</p>
@@ -171,7 +173,8 @@ const CartComp =  ({allProductsOfStore}:{allProductsOfStore:Array<oneProductType
     <h4 className='text-yellow-400 font-semibold md:text-xl'>5 Working Days</h4>
       <div className='flex justify-between'>
       <p className='font-semibold md:text-lg'>${item.price}</p>
-      <div className="flex gap-2 items-center text-lg">
+
+      <div className={`flex gap-2 ${loading ? "opacity-25" : "opacity-100"} items-center text-lg`}>
         <button
         onClick={()=>handleDecrementByOne(item._id,item.price)}
         className='select-none flex justify-center items-center w-9 h-9 rounded-full bg-gray-100 cursor-pointer'
@@ -188,11 +191,32 @@ const CartComp =  ({allProductsOfStore}:{allProductsOfStore:Array<oneProductType
           </button>
         </div>
       </div>
-
-
   </div>
   </div> 
-    ))
+    )
+}) : 
+
+!userData ? (
+  <div className="text-center font-semibold text-gray-800 text-xl">Please login First</div>
+) :
+  arrayForLoading.map((index: number) => (
+      <div key={index} className="border border-blue-300 shadow rounded-md p-4 w-full mx-auto">
+          <div className="flex animate-pulse gap-4">
+              <div className="bg-slate-200 rounded-lg h-32 w-4/12"></div>
+              <div className="flex-1 space-y-6 py-1">
+                  <div className="grid grid-cols-3 gap-4">
+                      <div className="h-2 bg-slate-200 rounded col-span-2"></div>
+                      <div className="h-2 bg-slate-200 rounded col-span-1"></div>
+                  </div>
+                  <div className="space-y-3">
+                      <div className="h-2 bg-slate-200 rounded"></div>
+                      <div className="h-2 bg-slate-200 rounded"></div>
+                  </div>
+                  <div className="h-8 w-16 bg-slate-200 rounded"></div>
+              </div>
+          </div>
+      </div>
+  ))
 }
 </div>
  
