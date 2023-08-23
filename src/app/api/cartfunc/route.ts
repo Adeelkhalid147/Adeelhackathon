@@ -3,11 +3,17 @@ import { db, cartTableDrizzle } from "../../../lib/drizzle";
 import { eq, and } from "drizzle-orm";
 
 // get method mai db.select use ho ga
-export async function GET() {
+export async function GET(req: NextRequest) {
+  let url = req.nextUrl.searchParams;
   try {
-    let allCartData = await db.select().from(cartTableDrizzle);
-    // console.log("data : ", allCartData);
-    return NextResponse.json({ allCartData });
+    if (url.has("user_id")) {
+      let allCartData = await db
+        .select()
+        .from(cartTableDrizzle)
+        .where(eq(cartTableDrizzle.user_id, url.get("user_id") as string));
+      // console.log("data : ", allCartData);
+      return NextResponse.json({ allCartData });
+    }
   } catch (error) {
     // console.log("error :", (error as { message: string }).message);
     return NextResponse.json({ error });
@@ -20,7 +26,12 @@ export async function GET() {
 export async function POST(req: NextRequest) {
   let request = await req.json();
   try {
-    if (request.product_id && request.quantity && request.user_id && request.price) {
+    if (
+      request.product_id &&
+      request.quantity &&
+      request.user_id &&
+      request.price
+    ) {
       // as variable mai jo chez insert krni h wo likni h jse k yha hm ne value product id user id insert krni
       let response = await db
         .insert(cartTableDrizzle)
@@ -29,7 +40,7 @@ export async function POST(req: NextRequest) {
       // console.log(response)
       return NextResponse.json({ response });
     } else {
-      throw Error("Please put product_id,quantity, user_id");
+      throw Error("Please put product_id quantity user_id");
     }
   } catch (error) {
     // console.log("error :", (error as { message: string }).message);
